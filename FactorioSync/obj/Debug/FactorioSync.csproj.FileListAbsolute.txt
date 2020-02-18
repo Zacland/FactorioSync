@@ -1,0 +1,14 @@
+C:\Users\Zac\source\repos\Zacland\FactorioSync\FactorioSync\bin\Debug\FactorioSync.exe.config
+C:\Users\Zac\source\repos\Zacland\FactorioSync\FactorioSync\bin\Debug\FactorioSync.exe
+C:\Users\Zac\source\repos\Zacland\FactorioSync\FactorioSync\bin\Debug\FactorioSync.pdb
+C:\Users\Zac\source\repos\Zacland\FactorioSync\FactorioSync\obj\Debug\FactorioSync.csprojAssemblyReference.cache
+C:\Users\Zac\source\repos\Zacland\FactorioSync\FactorioSync\obj\Debug\MainWindow.g.cs
+C:\Users\Zac\source\repos\Zacland\FactorioSync\FactorioSync\obj\Debug\App.g.cs
+C:\Users\Zac\source\repos\Zacland\FactorioSync\FactorioSync\obj\Debug\FactorioSync_MarkupCompile.cache
+C:\Users\Zac\source\repos\Zacland\FactorioSync\FactorioSync\obj\Debug\FactorioSync_MarkupCompile.lref
+C:\Users\Zac\source\repos\Zacland\FactorioSync\FactorioSync\obj\Debug\MainWindow.baml
+C:\Users\Zac\source\repos\Zacland\FactorioSync\FactorioSync\obj\Debug\FactorioSync.g.resources
+C:\Users\Zac\source\repos\Zacland\FactorioSync\FactorioSync\obj\Debug\FactorioSync.Properties.Resources.resources
+C:\Users\Zac\source\repos\Zacland\FactorioSync\FactorioSync\obj\Debug\FactorioSync.csproj.GenerateResource.cache
+C:\Users\Zac\source\repos\Zacland\FactorioSync\FactorioSync\obj\Debug\FactorioSync.exe
+C:\Users\Zac\source\repos\Zacland\FactorioSync\FactorioSync\obj\Debug\FactorioSync.pdb
