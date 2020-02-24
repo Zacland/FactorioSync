@@ -7,10 +7,10 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <TextBox x:Name="TxtSource" HorizontalAlignment="Left" Height="23" Margin="91,10,0,0" TextWrapping="Wrap" Text="C:\Users\Zac\AppData\Roaming\Factorio\saves" VerticalAlignment="Top" Width="691"/>
+        <TextBox x:Name="TxtSource" HorizontalAlignment="Left" Height="23" Margin="91,10,0,0" TextWrapping="Wrap" Text="C:\Users\C.ROUXEL\AppData\Roaming\Factorio\saves" VerticalAlignment="Top" Width="691"/>
         <Label x:Name="LblSource" Content="Source :" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
         <Label x:Name="LblDestination" Content="Destination :" HorizontalAlignment="Left" Margin="10,41,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="TxtDestination" HorizontalAlignment="Left" Height="23" Margin="91,44,0,0" TextWrapping="Wrap" Text="H:\Test_Copy_Factorio" VerticalAlignment="Top" Width="691"/>
+        <TextBox x:Name="TxtDestination" HorizontalAlignment="Left" Height="23" Margin="91,44,0,0" TextWrapping="Wrap" Text="C:\Users\C.ROUXEL\Dropbox\__FACTORIO_saved_games" VerticalAlignment="Top" Width="691"/>
         <Button x:Name="button" Content="Button" HorizontalAlignment="Left" Margin="11,72,0,0" VerticalAlignment="Top" Width="75" Height="34" Click="button_Click"/>
 
     </Grid>
