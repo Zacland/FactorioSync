@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace FactorioSync
 {
@@ -12,47 +14,100 @@ namespace FactorioSync
     {
         private static readonly Logger logger = LogManager.GetCurrentClassLogger();
 
-        public static void CopyFile(string Src_FOLDER, string Dest_FOLDER)
+        private enum ErrorLvl
         {
-            string[] originalFiles = Directory.GetFiles(Src_FOLDER, "*", SearchOption.AllDirectories);
+            Debug,
+            Error
+        }
 
-            logger.Debug("Début : {}", DateTime.Now);
-            logger.Debug("Il y a {} fichiers dans {}", originalFiles.Length, Src_FOLDER);
+        private static void LogString(string text, ListBox lstBox = null, ErrorLvl error = ErrorLvl.Debug, string color = "")
+        {
+            if (lstBox != null)
+            {
+                var defaultBrushColor = Brushes.Blue;
+                var successBrushColor = Brushes.Green;
+                var errorBrushColor = Brushes.Red;
+                var warningBrushColor = Brushes.Orange;
+
+                var currentBrushe = defaultBrushColor;
+
+                if (color == "success")
+                {
+                    currentBrushe = successBrushColor;
+                } 
+                else if (color == "error")
+                {
+                    currentBrushe = errorBrushColor;
+                } 
+                else if (color == "warning")
+                {
+                    currentBrushe = warningBrushColor;
+                }
+
+                lstBox.Items.Add(new ListBoxItem {
+                    Content = String.Format(text),
+                    Foreground = currentBrushe
+                });
+            }
+            else
+            {
+                if (error == ErrorLvl.Debug) 
+                {
+                    logger.Debug(text);
+                }
+                else if (error == ErrorLvl.Error)
+                {
+                    logger.Error(text);
+                }
+                else
+                {
+                    logger.Info(text);
+                }
+                    
+            }
+        }
+
+        public static void CopyFile(string srcFolder, string destFolder, ListBox lstBox = null)
+        {
+            string[] originalFiles = Directory.GetFiles(srcFolder, "*", SearchOption.AllDirectories);
+
+            LogString(String.Format("Début : {0}", DateTime.Now), lstBox);
+            LogString(String.Format("Il y a {0} fichiers dans {1}", originalFiles.Length, srcFolder), lstBox);
 
             Array.ForEach(originalFiles, (originalFileLocation) =>
             {
                 try
                 {
                     FileInfo originalFile = new FileInfo(originalFileLocation);
-                    FileInfo destFile = new FileInfo(originalFileLocation.Replace(Src_FOLDER, Dest_FOLDER));
+                    FileInfo destFile = new FileInfo(originalFileLocation.Replace(srcFolder, destFolder));
 
-                    logger.Debug("Copie du fichier {} vers le répertoire {}", originalFile, Dest_FOLDER);
+                    LogString(String.Format("Copie du fichier {0} vers le répertoire {1}", originalFile, destFolder), lstBox);
 
                     if (destFile.Exists)
                     {
-                        logger.Debug("Le fichier {} existe déja !", destFile);
+                        LogString(String.Format("Le fichier {0} existe déja !", destFile), lstBox);
                         if (originalFile.Length > destFile.Length)
                         {
-                            logger.Debug("Le fichier d'origine \"{}\" est plus récent que le fichier de destination \"{}\" : On l'écrase", originalFile, destFile);
+                            LogString(String.Format("Le fichier d'origine \"{0}\" est plus récent que le fichier de destination \"{1}\" : On l'écrase", originalFile, destFile), lstBox, ErrorLvl.Debug, "succes");
                             originalFile.CopyTo(destFile.FullName, true);
                         }
                     }
                     else
                     {
-                        logger.Debug("Création/Sélection du répertoire \"{}\"", destFile.DirectoryName);
+                        LogString(String.Format("Création/Sélection du répertoire \"{0}\"", destFile.DirectoryName), lstBox, ErrorLvl.Debug, "warning");
                         Directory.CreateDirectory(destFile.DirectoryName);
-                        logger.Debug("Copie du fichier {}", destFile.FullName);
+                        LogString(String.Format("Copie du fichier {0}", destFile.FullName), lstBox, ErrorLvl.Debug, "success");
                         originalFile.CopyTo(destFile.FullName, false);
                     }
                 }
                 catch (Exception e)
                 {
-                    logger.Error(e);
+                    LogString(e.ToString(), lstBox, ErrorLvl.Error, "error");
                 }
             });
 
-            logger.Debug("Fin : {}", DateTime.Now);
-            logger.Debug("*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*");
+            LogString(String.Format("Fin : {0}", DateTime.Now), lstBox);
+            LogString("*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*", lstBox);
         }
     }
 }
