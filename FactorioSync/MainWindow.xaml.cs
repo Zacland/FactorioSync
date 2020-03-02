@@ -17,19 +17,6 @@ namespace FactorioSync
             InitializeComponent();
         }
 
-        private void button_Click(object sender, RoutedEventArgs e)
-        {
-            BtnReset_Click(sender, e);
-            ZacFunctions.CopyFile(TxtSource.Text.ToString(), TxtDestination.Text.ToString(), listBox);
-            ZacFunctions.CopyFile(TxtDestination.Text.ToString(), TxtSource.Text.ToString(), listBox);
-
-
-            if ((args.Length>1) && args[1] == "/silent")
-            {
-                this.Close();
-            }
-        }
-
         private void BtnReset_Click(object sender, RoutedEventArgs e)
         {
             listBox.Items.Clear();
@@ -39,7 +26,20 @@ namespace FactorioSync
         {
             if ((args.Length>1) && args[1] == "/silent")
             {
-                button_Click(sender, e);
+                BtnGo_Click(sender, e);
+            }
+        }
+
+        private void BtnGo_Click(object sender, RoutedEventArgs e)
+        {
+            BtnReset_Click(sender, e);
+            ZacFunctions.CopyFile(TxtSource.Text.ToString(), TxtDestination.Text.ToString(), listBox);
+            ZacFunctions.CopyFile(TxtDestination.Text.ToString(), TxtSource.Text.ToString(), listBox);
+
+
+            if ((args.Length > 1) && args[1] == "/silent")
+            {
+                this.Close();
             }
         }
     }
