@@ -12,17 +12,22 @@ namespace FactorioSync
 {
     class ZacFunctions
     {
-        private static readonly Logger logger = LogManager.GetCurrentClassLogger();
+        private static readonly Logger _logger = LogManager.GetCurrentClassLogger();
+        private static readonly string[] _args = Environment.GetCommandLineArgs();
 
         private enum ErrorLvl
         {
+            Fatal,
+            Error,
+            Warn,
+            Info,
             Debug,
-            Error
+            Trace
         }
 
         private static void LogString(string text, ListBox lstBox = null, ErrorLvl error = ErrorLvl.Debug, string color = "")
         {
-            if (lstBox != null)
+            if ((lstBox != null) && !((_args.Length > 1) && _args[1] == "/silent"))
             {
                 var defaultBrushColor = Brushes.Blue;
                 var successBrushColor = Brushes.Green;
@@ -53,15 +58,15 @@ namespace FactorioSync
             {
                 if (error == ErrorLvl.Debug) 
                 {
-                    logger.Debug(text);
+                    _logger.Debug(text);
                 }
                 else if (error == ErrorLvl.Error)
                 {
-                    logger.Error(text);
+                    _logger.Error(text);
                 }
                 else
                 {
-                    logger.Info(text);
+                    _logger.Info(text);
                 }
                     
             }
@@ -88,7 +93,7 @@ namespace FactorioSync
                         LogString(String.Format("Le fichier {0} existe déja !", destFile), lstBox);
                         if (originalFile.Length > destFile.Length)
                         {
-                            LogString(String.Format("Le fichier d'origine \"{0}\" est plus récent que le fichier de destination \"{1}\" : On l'écrase", originalFile, destFile), lstBox, ErrorLvl.Debug, "succes");
+                            LogString(String.Format("Le fichier d'origine \"{0}\" est plus récent que le fichier de destination \"{1}\" : On l'écrase", originalFile, destFile), lstBox, ErrorLvl.Info, "succes");
                             originalFile.CopyTo(destFile.FullName, true);
                         }
                     }
@@ -96,8 +101,15 @@ namespace FactorioSync
                     {
                         LogString(String.Format("Création/Sélection du répertoire \"{0}\"", destFile.DirectoryName), lstBox, ErrorLvl.Debug, "warning");
                         Directory.CreateDirectory(destFile.DirectoryName);
+                        try 
+                        {
                         LogString(String.Format("Copie du fichier {0}", destFile.FullName), lstBox, ErrorLvl.Debug, "success");
                         originalFile.CopyTo(destFile.FullName, false);
+                        }
+                        catch (Exception e)
+                        {
+                            LogString(String.Format("Erreur lors de la copie du fichier {0}", destFile.FullName), lstBox, ErrorLvl.Error, "error");
+                        }
                     }
                 }
                 catch (Exception e)

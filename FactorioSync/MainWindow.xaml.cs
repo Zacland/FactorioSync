@@ -10,7 +10,7 @@ namespace FactorioSync
     /// </summary>
     public partial class MainWindow : Window
     {
-        private readonly string[]  args = Environment.GetCommandLineArgs();
+        private readonly string[]  _args = Environment.GetCommandLineArgs();
 
         public MainWindow()
         {
@@ -24,7 +24,7 @@ namespace FactorioSync
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            if ((args.Length>1) && args[1] == "/silent")
+            if ((_args.Length>1) && _args[1] == "/silent")
             {
                 BtnGo_Click(sender, e);
             }
@@ -37,7 +37,7 @@ namespace FactorioSync
             ZacFunctions.CopyFile(TxtDestination.Text.ToString(), TxtSource.Text.ToString(), listBox);
 
 
-            if ((args.Length > 1) && args[1] == "/silent")
+            if ((_args.Length > 1) && _args[1] == "/silent")
             {
                 this.Close();
             }
