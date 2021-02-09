@@ -50,3 +50,4 @@ C:\Users\Zac\Source\Repos\FactorioSync\FactorioSync\obj\Debug\FactorioSync.cspro
 C:\Users\Zac\Source\Repos\FactorioSync\FactorioSync\obj\Debug\FactorioSync.csproj.CopyComplete
 C:\Users\Zac\Source\Repos\FactorioSync\FactorioSync\obj\Debug\FactorioSync.exe
 C:\Users\Zac\Source\Repos\FactorioSync\FactorioSync\obj\Debug\FactorioSync.pdb
+C:\Users\Zac\source\repos\FactorioSync\FactorioSync\obj\Debug\FactorioSync.csproj.CoreCompileInputs.cache

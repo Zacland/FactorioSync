@@ -1,10 +1,6 @@
 ﻿using System;
 using System.IO;
 using NLog;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Media;
 
@@ -39,24 +35,25 @@ namespace FactorioSync
                 if (color == "success")
                 {
                     currentBrushe = successBrushColor;
-                } 
+                }
                 else if (color == "error")
                 {
                     currentBrushe = errorBrushColor;
-                } 
+                }
                 else if (color == "warning")
                 {
                     currentBrushe = warningBrushColor;
                 }
 
-                lstBox.Items.Add(new ListBoxItem {
+                lstBox.Items.Add(new ListBoxItem
+                {
                     Content = String.Format(text),
                     Foreground = currentBrushe
                 });
             }
             else
             {
-                if (error == ErrorLvl.Debug) 
+                if (error == ErrorLvl.Debug)
                 {
                     _logger.Debug(text);
                 }
@@ -68,7 +65,7 @@ namespace FactorioSync
                 {
                     _logger.Info(text);
                 }
-                    
+
             }
         }
 
@@ -76,8 +73,8 @@ namespace FactorioSync
         {
             string[] originalFiles = Directory.GetFiles(srcFolder, "*", SearchOption.AllDirectories);
 
-            LogString(String.Format("Début : {0}", DateTime.Now), lstBox);
-            LogString(String.Format("Il y a {0} fichiers dans {1}", originalFiles.Length, srcFolder), lstBox);
+            LogString($"Début : {DateTime.Now}", lstBox);
+            LogString($"Il y a {originalFiles.Length} fichiers dans {srcFolder}", lstBox);
 
             Array.ForEach(originalFiles, (originalFileLocation) =>
             {
@@ -86,39 +83,43 @@ namespace FactorioSync
                     FileInfo originalFile = new FileInfo(originalFileLocation);
                     FileInfo destFile = new FileInfo(originalFileLocation.Replace(srcFolder, destFolder));
 
-                    LogString(String.Format("Copie du fichier {0} vers le répertoire {1}", originalFile, destFolder), lstBox);
+                    LogString($"Vérification du fichier {originalFile} vers le répertoire {destFolder}", lstBox);
 
                     if (destFile.Exists)
                     {
-                        LogString(String.Format("Le fichier {0} existe déja !", destFile), lstBox);
-                        if (originalFile.Length > destFile.Length)
+                        LogString($"Le fichier {destFile} existe déja !", lstBox);
+                        if (originalFile.LastWriteTimeUtc > destFile.LastWriteTimeUtc)
                         {
-                            LogString(String.Format("Le fichier d'origine \"{0}\" est plus récent que le fichier de destination \"{1}\" : On l'écrase", originalFile, destFile), lstBox, ErrorLvl.Info, "succes");
+                            LogString($"Le fichier d'origine \"{originalFile}\" >{originalFile.LastWriteTimeUtc}< est plus récent que le fichier de destination \"{destFile}\" >{destFile.LastWriteTimeUtc}< : On l'écrase", lstBox, ErrorLvl.Info, "succes");
                             originalFile.CopyTo(destFile.FullName, true);
+                        }
+                        else
+                        {
+                            LogString($"Les fichiers sont identiques", lstBox, ErrorLvl.Info, "succes");
                         }
                     }
                     else
                     {
-                        LogString(String.Format("Création/Sélection du répertoire \"{0}\"", destFile.DirectoryName), lstBox, ErrorLvl.Debug, "warning");
+                        LogString($"Création/Sélection du répertoire \"{destFile.DirectoryName}\"", lstBox, ErrorLvl.Debug, "warning");
                         Directory.CreateDirectory(destFile.DirectoryName);
-                        try 
+                        try
                         {
-                        LogString(String.Format("Copie du fichier {0}", destFile.FullName), lstBox, ErrorLvl.Debug, "success");
-                        originalFile.CopyTo(destFile.FullName, false);
+                            LogString($"Copie du fichier {destFile.FullName}", lstBox, ErrorLvl.Debug, "success");
+                            originalFile.CopyTo(destFile.FullName, false);
                         }
-                        catch (Exception e)
+                        catch (Exception ex)
                         {
-                            LogString(String.Format("Erreur lors de la copie du fichier {0}", destFile.FullName), lstBox, ErrorLvl.Error, "error");
+                            LogString($"Erreur lors de la copie du fichier {destFile.FullName} : {ex.Message}", lstBox, ErrorLvl.Error, "error");
                         }
                     }
                 }
                 catch (Exception e)
                 {
-                    LogString(e.ToString(), lstBox, ErrorLvl.Error, "error");
+                    LogString(e.Message, lstBox, ErrorLvl.Error, "error");
                 }
             });
 
-            LogString(String.Format("Fin : {0}", DateTime.Now), lstBox);
+            LogString($"Fin : {DateTime.Now}", lstBox);
             LogString("*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*", lstBox);
         }
     }
