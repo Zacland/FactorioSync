@@ -91,7 +91,15 @@ namespace FactorioSync
                         if (originalFile.LastWriteTimeUtc > destFile.LastWriteTimeUtc)
                         {
                             LogString($"Le fichier d'origine \"{originalFile}\" >{originalFile.LastWriteTimeUtc}< est plus récent que le fichier de destination \"{destFile}\" >{destFile.LastWriteTimeUtc}< : On l'écrase", lstBox, ErrorLvl.Info, "succes");
-                            originalFile.CopyTo(destFile.FullName, true);
+                            try
+                            {
+                                originalFile.CopyTo(destFile.FullName, true);
+                                LogString($"Copie effectuée : \"{originalFile}\" -> \"{destFile}\" !", lstBox, ErrorLvl.Info, "succes");
+                            }
+                            catch (Exception e)
+                            {
+                                LogString($"Erreur lors de la copie du fichier {originalFile} : {e.Message}", lstBox, ErrorLvl.Error, "error");
+                            }
                         }
                         else
                         {
